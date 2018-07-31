@@ -1,0 +1,18 @@
+use astronomia
+db.createCollection("planetas")
+
+db.planetas.insert({Id:1,Nombre:"P111",Masa:1.9,Volumen:3,Composicion:"H",Perihelio:0.5})
+db.planetas.insert({Id:2,Nombre:"P222",Masa:3.1,Volumen:4.5,Composicion:"0",Perihelio:0.07,Afelio:1.7})
+db.planetas.insert({Id:3,Nombre:"S111",Masa:0.2})
+db.planetas.insert({Id:4,Nombre:"S222",Masa:0.3,Volumen:1.1})
+db.planetas.insert({Id:5,Nombre:"S333",Volumen:0.02})
+db.planetas.insert({Id:6,Nombre:"C111",Masa:0.05,Volumen:3,Composicion:"H",Perihelio:0.01,Felio:25})
+db.planetas.insert({Id:2,Nombre:"P333",Masa:3.8,Volumen:4.9,Composicion:"He"})
+
+db.planetas.update({Nombre:"P222"},{"$push":{satelites:{Nombre:"S111"}}})
+db.planetas.update({Nombre:"P222"},{"$push":{satelites:{Nombre:"S222"}}})
+db.planetas.update({Nombre:"P222"},{"$push":{satelites:{Nombre:"S333"}}})
+
+db.planetas.find({"$or":[{Composicion:{"$in":["H","N"]}},{Masa:{"$gt":3.2}}]})
+
+db.planetas.update({Nombre:"C111"},{"$set":{Nombre:"Z111"}})

@@ -1,0 +1,27 @@
+
+%Solución examen 2018 Junio%
+%habitacion(idh,Categoria)
+habitacion(111,1).
+habitacion(222,3).
+habitacion(333,2).
+%tipos_habitacion(Categoria,Precio)
+tipos_habitacion(1,10).
+tipos_habitacion(2,20).
+tipos_habitacion(3,30).
+%reserva(Idres,IdH,Comienzo,Final)
+reserva(1111,111,1,3).
+reserva(2222,111,6,8).
+reserva(3333,222,14,21).
+
+
+%importe_reserva(Ir,Ih,T)
+importe_reserva(Ir,Ih,T):-reserva(Ir,Ih,C,F),habitacion(Ih,Ca),tipos_habitacion(Ca,P), D is F-C , T is P*D.
+%facturacion
+facturacion(Ih,P):-group_by(importe_reserva(Ir,Ih,T),[Ih],P=sum(T)).
+%estancia
+estancia(Ih,E):-reserva(Ir,Ih,C,F),habitacion(Ih,_), E is F-C.
+%promedio
+promedio(Ih,A):-group_by(estancia(Ih,E),[Ih],A=avg(E)).
+%maxima
+maxima(Ih,M):-group_by(estancia(Ih,E),[Ih],M=max(E)).
+
