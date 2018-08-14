@@ -14,7 +14,7 @@ pedidos(1,02,03,2018,12345,1).
 pedidos(2,04,04,2018,12346,2).
 %1 Libros de un autor dado
 libros_Autor(Titulo,Autor):-libros(Titulo,_,Autor,_,_,_,_,_).
-%2 Libros ”caros” (precio mayor de 40 euros)
+%2 Libros â€carosâ€ (precio mayor de 40 euros)
 libros_caros(Titulo,Precio):-libros(Titulo,_,_,_,_,_,Precio,_),Precio > 40.
 %3 Libros casi agotados (menos de 10 unidades)
 libros_agotados(Isbn,C):-libros(_,Isbn,_,_,_,_,_,_),pedidos(nPedidos,_,_,_,Isbn,C),C < 10.
@@ -31,13 +31,13 @@ comprados_titulo(nif,Titulo,Total):-clientes(_,nif,nP),pedidos(nP,_,_,_,Isbn,Tot
 libros_titulo(nif,S):-group_by(comprados_titulo(nif,Titulo,Total),[Titulo],S=sum(Total)).
 %8 Ingresos por venta por ano
 ingresos(Ano,T):-libros(_,Isbn,_,_,_,_,Precio,_),pedidos(_,_,_,Ano,Isbn,Unidades),T is Precio*Unidades.
-ingresos_ano(nP,P):-group_by(ingresos(nP,Ano,T),[Ano],P=sum(T)).
+ingresos_ano(P):-group_by(ingresos(Ano,T),[Ano],P=sum(T)).
 %9 Ingresos por venta por libro
-ingresos_libaux(nP,Isbn,T):-libros(_,Isbn,_,_,_,_,Precio,_),pedidos(_,_,_,_,Isbn,Unidades),T is Precio*Unidades.
-ingresos_libro(nP,P):-group_by(ingresos_libaux(nP,Isbn,T),[Isbn],P=sum(T)).
+ingresos_libaux(Isbn,T):-libros(_,Isbn,_,_,_,_,Precio,_),pedidos(_,_,_,_,Isbn,Unidades),T is Precio*Unidades.
+ingresos_libro(P):-group_by(ingresos_libaux(Isbn,T),[Isbn],P=sum(T)).
 %10 Ingresos por venta por libro y ano
-ingresos_libAx(nP,Isbn,A,T):-libros(_,Isbn,_,_,_,_,Precio,_),pedidos(_,_,_,A,Isbn,Unidades),T is Precio*Unidades.
-ingresos_libAno(nP,A,P):-group_by(ingresos_libAx(nP,Isbn,A,T),[Isbn,A],P=sum(T)).
+ingresos_libAx(Isbn,A,T):-libros(_,Isbn,_,_,_,_,Precio,_),pedidos(_,_,_,A,Isbn,Unidades),T is Precio*Unidades.
+ingresos_libAno(A,P):-group_by(ingresos_libAx(Isbn,A,T),[Isbn,A],P=sum(T)).
 %11 Todos los pedidos y su fecha
 pedidos(nP,D,M,A):-pedidos(nP,D,M,A,_,_),clientes(_,nif,nP).
 %12 Ingresos por tema y ano
