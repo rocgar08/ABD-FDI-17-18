@@ -1,0 +1,36 @@
+%cliente(id,nombre,telefono)
+cliente(1,pepe,444).
+cliente(1,pepe,222).
+cliente(2,juan,111).
+cliente(2,juan,333).
+%telefono(telefono,mes,gasto)
+telefono(444,1,420).
+telefono(444,2,430).
+telefono(444,3,425).
+telefono(222,1,222).
+telefono(222,2,210).
+telefono(222,2,215).
+telefono(222,3,215).
+telefono(111,1,160).
+telefono(333,2,310).
+telefono(333,3,315).
+%llamada(origen,destino,duracion)
+llamada(111,222,30).
+llamada(333,222,120).
+llamada(444,111,10).
+llamada(444,333,200).
+llamada(444,555,30).
+llamada(444,666,80).
+%CONSUMOS todos los clientes
+consumo(C,M,G):-cliente(C,_,T),telefono(T,M,G),llamada(T,_,_).
+%CONSUMOS POR TELEFONO
+consumosT(T,G):-cliente(_,_,T),telefono(T,_,G).
+consT(T,S):-group_by(telefono(T,_,G),[T],S  is sum(G)).
+%CONSUMOS POR TELEFONO,MES
+consTM(T,M,S):-group_by(telefono(T,M,G),[T,M],S is sum(G)).
+%CONSUMOS POR CLIENTE
+consumosCliente(C,A):-group_by(consumo(C,T,G),[C],A is sum(G)).
+%CONSUMO CLIENTE,MES 
+consumoCyM(C,M,S):-group_by(consumo(C,M,G),[C,M],S is sum(G)).
+%consumopor cliente
+CONC(C,S):-group_by(consumo(C,M,G),[C],S is sum(G)).
