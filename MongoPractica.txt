@@ -1,0 +1,34 @@
+--Crea la base de datos videoclub--
+use videoclub
+---Crea la colección películas--
+db.createCollection("peliculas")
+--Inserta documentos que representen películas---
+db.peliculas.insert({tipo:"DVD",titulo:"Matrix",estreno:1999,genero:"ficcion"})
+db.peliculas.insert({tipo:"VHS",titulo:"El diario de Noah",estreno:2004,actores:["Ryan Goslin,Rachel McAdams"],genero:"romance"})
+db.peliculas.insert({tipo:"libro",titulo:"el regimiento de Monstruos",año:2010,capitulos:20,leidos:20})
+db.peliculas.insert({tipo:"serie",titulo:"Viajeros",estreno:2017,actores:["v0004","v3435"],genero:"ciencia-ficcion"})
+---Actualizar la pelicula de titulo ”Matrix” con la siguiente informacion--
+{”tipo”:”DVD”,
+” Titulo”:”Matrix”,
+” estreno”: 1999,
+” genero”: ”accion”
+}
+db.peliculas.update({titulo:"Matrix"},{$set:{estreno:1999, genero:"accion", tipo:"DVD"});
+---Actualizar el documento referido a la pelicula Matrix cambiando el valor de la clave genero a ciencia ficcion.---
+db.peliculas.update({titulo:"Matrix"},{"$set":{genero:"ciencia-ficcion"}})
+--Actualizar el documento referido a la pelicula Matrix anadiendo al array actores los valores de Antonio Banderas y Brad Pitt en una unica operacion--
+db.peliculas.update({titulo:"Matrix"},{"$push":{actores:["Antonio Banderas","Brad Pitt"]}})
+---Actualizar el documento referido a la pelicula Matrix anadiendo al array actores los valores Joe Pantoliano, Brad Pitt y Natalie Portman.---
+db.peliculas.update({titulo:"Matrix"},{"$push":{actores:["Joe Pantoliano","Brad Pitt","Natalie Portman"]}})
+---- Actualizar el documento de la pelicula Matrix eliminando del array el primer y ultimo actor.---
+db.peliculas.update({titulo:"Matrix"},{"$pop":{actores:1}})
+db.peliculas.update({titulo:"Matrix"},{"$pop":{actores:-1}})
+---.Añadir a la coleccion
+{” tipo”: ”Libro”,
+” Titulo”: ”Constantinopla”,
+” capitulos”: 12,
+” leidos”:3
+}--
+db.peliculas.insert({tipo:"libro",titulo:"Constantinopla",capitulos:12,leidos:3})
+---Incrementar en cinco unidades el valor de la clave leidos.---
+db.peliculas.update({titulo:"Constantinopla"},{"$inc":{leidos:5}})
