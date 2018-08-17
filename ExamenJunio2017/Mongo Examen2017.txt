@@ -1,0 +1,12 @@
+Mongo Examen2017
+use movilMongo
+db.createCollection("clientes")
+db.clientes.insert({dni:111,nombre:"pepe",telefono:1111,direccion:"Madrid"})
+db.clientes.insert({dni:222,nombre:"pepe",telefono:2222,direccion:"Barcelona",edad:27})
+db.clientes.insert({dni:333,nombre:"juan",telefono:3333})
+db.clientes.insert({dni:444,nombre:"ana",telefono:4444,edad:38})
+db.clientes.find({},{"dni":1,"nombre":1,"_id":0})
+db.clientes.find({"$or":[{"telefono:{"$in":[1111,4444]}},{nombre:"maria"},{edad:{"$lte":30}}]})
+db.clientes.update({"nombre":"pepe"},{"$set":{"adicionales":[{"casa":"1112","trabajo":"1113"}]}}
+db.clientes.update({"nombre":"ana"},{"$set":{"antiguedad":0}})
+db.clientes.update({"nombre":"ana"},{"$inc":{"antiguedad":1}})
