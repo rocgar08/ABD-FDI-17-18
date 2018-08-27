@@ -1,3 +1,4 @@
+
 %cliente(id,nombre,telefono)
 cliente(1,pepe,444).
 cliente(1,pepe,222).
@@ -25,12 +26,19 @@ llamada(444,666,80).
 consumo(C,M,G):-cliente(C,_,T),telefono(T,M,G),llamada(T,_,_).
 %CONSUMOS POR TELEFONO
 consumosT(T,G):-cliente(_,_,T),telefono(T,_,G).
-consT(T,S):-group_by(telefono(T,_,G),[T],S  is sum(G)).
+consT(T,S):-group_by(telefono(T,_,G),[T],S=sum(G)).
 %CONSUMOS POR TELEFONO,MES
-consTM(T,M,S):-group_by(telefono(T,M,G),[T,M],S is sum(G)).
+consTM(T,M,S):-group_by(telefono(T,M,G),[T,M],S=sum(G)).
 %CONSUMOS POR CLIENTE
-consumosCliente(C,A):-group_by(consumo(C,T,G),[C],A is sum(G)).
+consumosCliente(C,A):-group_by(consumo(C,T,G),[C],A=sum(G)).
 %CONSUMO CLIENTE,MES 
-consumoCyM(C,M,S):-group_by(consumo(C,M,G),[C,M],S is sum(G)).
+consumoCyM(C,M,S):-group_by(consumo(C,M,G),[C,M],S=sum(G)).
 %consumopor cliente
-CONC(C,S):-group_by(consumo(C,M,G),[C],S is sum(G)).
+conc(C,S):-group_by(consumo(C,M,G),[C],S=sum(G)).
+%llamadas entre usuar
+llamad_ust1(T1,D):-llamada(T1,_,D),cliente(_,_,T1).
+llamad_ust2(T2,D):-llamada(T1,_,D),cliente(_,_,T2).
+llamadas_usuarios(T1,T2,D):-llamad_ust1(T1,D),llamad_ust2(T2,D).
+%9LLAMADAS DE USUARIOS CON DURACION DE CADA LLAMADA
+lla_por_dur(T1,T2,T):-group_by(llamadas_usuarios(T1,T2,D),[T1,T2],T=sum(D)).
+%LLAMADAS MAXIMA DURACION
