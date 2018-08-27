@@ -35,10 +35,17 @@ consumosCliente(C,A):-group_by(consumo(C,T,G),[C],A=sum(G)).
 consumoCyM(C,M,S):-group_by(consumo(C,M,G),[C,M],S=sum(G)).
 %consumopor cliente
 conc(C,S):-group_by(consumo(C,M,G),[C],S=sum(G)).
-%llamadas entre usuar
-llamad_ust1(T1,D):-llamada(T1,_,D),cliente(_,_,T1).
-llamad_ust2(T2,D):-llamada(T1,_,D),cliente(_,_,T2).
-llamadas_usuarios(T1,T2,D):-llamad_ust1(T1,D),llamad_ust2(T2,D).
-%9LLAMADAS DE USUARIOS CON DURACION DE CADA LLAMADA
+%llamadas entre usuarios con duracion
+llamadas_usuarios_tel(T1,T2,D):-cliente(N1,_,T2),llamada(T1,T2,D),cliente(N2,_,T1).
+
+%llamadas entre usuarios con duracion agregada
 lla_por_dur(T1,T2,T):-group_by(llamadas_usuarios(T1,T2,D),[T1,T2],T=sum(D)).
-%LLAMADAS MAXIMA DURACION
+%llamadas con duracion de cada llamada .Si existe el nombre sel usuario receptor debe aparecer
+llamadas_usuarios_receptor(N,T1,D):-lj(llamadas_usuarios_tel(T1,T2,D),cliente(_,N,T2b),T2=T2b).
+%llamadas con duracion de cada llamada .Si existe el nombre sel usuario emisor debe aparecer
+%llamadas_usuarios_emisor(N,T1,D):-lj(llamadas_usuarios_tel(T1,T2,D),cliente(_,N,T1a),T1=T1b).
+%llamadas de usuarios con duracion agregadas por usuario llamante
+llamadas_us_agregados(N,T,S):-group_by
+(llamadas_usuario_receptor(N,T,D),[T],S=sum(D)).
+%llamadas maxima duracion 
+llam_max_dur_r(T1,S):-group_by(llamadas_usuarios_receptor(N,T1,D),[T2],S=max(D)).
