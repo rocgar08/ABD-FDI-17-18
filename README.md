@@ -1,2 +1,3 @@
-#Ejercicios de la Asignatura ABD
-MONGODB,XML Y DATALOG
+#Ejercicios de la Asignatura ABD(Mongo ,XML,Datalog,php y mySQL)
+
+
